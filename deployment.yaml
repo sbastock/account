@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stocksba-account
+  namespace: stocksba
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stocksba-account
+  template:
+    metadata:
+      labels:
+        app: stocksba-account
+    spec:
+      containers:
+        - name: stocksba-account
+          image: registry.cn-shanghai.aliyuncs.com/yuanbing/stocksba-account:{version}
+          ports:
+            - name: http-port
+              containerPort: 9997
+          env:
+            - name: spring_profiles_active
+              value: k8s
+      imagePullSecrets:
+        - name: stocksba
